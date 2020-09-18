@@ -123,16 +123,11 @@ footer p {
   font-size: 1.1em;
 }
 @media screen and (min-width: 768px) {
-  .fullForm {
-    width: 80%;
-    margin: auto;
-  }
+
 }
 
 @media screen and (min-width: 992px) {
-  .fullForm {
-    width: 70%;
-  }
+
 }
 /* ==========================================================================
    Helper classes
