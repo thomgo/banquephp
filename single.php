@@ -5,12 +5,12 @@ include "template/header.php";
 ?>
 
 <?php
-if(isset($_GET) && !empty($_GET)):
+if(!empty($_GET)):
   $pos = htmlspecialchars($_GET["id"]);
   $account = get_accounts()[$pos];
   if ($account):
 ?>
-    <h2>Vos comptes bancaires</h2>
+    <h2>Détails du compte : </h2>
     <div class="row mt-5">
       <div class="col-12 col-md-6 col-lg-4">
         <article class="card">
