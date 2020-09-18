@@ -23,7 +23,7 @@ include "template/header.php";
         </ul>
         <a href="#" class="btn btn-info">Côturer</a>
         <a href="operation.html" class="btn btn-info">Dépot/retrait</a>
-        <a href="#" class="btn btn-info">Voir</a>
+        <a href="single.php<?php echo "?id=$key"; ?>" class="btn btn-info">Voir</a>
       </div>
     </article>
   </div>
