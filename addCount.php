@@ -27,7 +27,7 @@
   <div class="col-12 col-md-6">
     <?php
     if(isset($_POST["new_account"])):
-      $account = array_map(htmlspecialchars, $_POST);
+      $account = array_map('htmlspecialchars', $_POST);
     ?>
     <article class="card">
       <div class="card-header">

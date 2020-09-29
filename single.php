@@ -2,13 +2,10 @@
 require "data/acounts.php";
 include "template/nav.php";
 include "template/header.php";
-?>
 
-<?php
-if(!empty($_GET)):
+if(!empty($_GET) && isset($_GET["id"])):
   $pos = htmlspecialchars($_GET["id"]);
   $account = get_accounts()[$pos];
-  if ($account):
 ?>
     <h2>Détails du compte : </h2>
     <div class="row mt-5">
@@ -31,7 +28,6 @@ if(!empty($_GET)):
         </article>
       </div>
     </div>
-  <?php endif; ?>
 <?php else: ?>
   <div class="alert alert-danger">
     <p>Nous avons rencontré un problème, aucun compte ne correspond à votre demande</p>
