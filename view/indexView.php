@@ -9,8 +9,8 @@ include "view/template/header.php";
   <div class="col-12 col-md-6 col-lg-4">
     <article class="card">
       <div class="card-header">
-        <h5 class="card-title"><?php echo $account["name"]; ?></h5>
-        <h6 class="card-subtitle mb-2 text-muted"><?php echo $account["number"]; ?></h6>
+        <h5 class="card-title"><?php echo $account["account_type"]; ?></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Numéro de compte : <?php echo $account["id"]; ?></h6>
       </div>
       <div class="card-body">
         <ul class="list-group list-group-flush border-bottom mb-2">
