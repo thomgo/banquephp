@@ -5,7 +5,7 @@ include "view/template/header.php";
 
 <h2>Vos comptes bancaires</h2>
 <div class="row mt-5">
-  <?php foreach ($accounts as $key => $account): ?>
+  <?php foreach ($accounts as $account): ?>
   <div class="col-12 col-md-6 col-lg-4">
     <article class="card">
       <div class="card-header">
@@ -20,7 +20,7 @@ include "view/template/header.php";
         </ul>
         <a href="#" class="btn btn-info">Côturer</a>
         <a href="operation.html" class="btn btn-info">Dépot/retrait</a>
-        <a href="single.php<?php echo "?id=$key"; ?>" class="btn btn-info">Voir</a>
+        <a href="single.php?id=<?php echo $account['id']; ?>" class="btn btn-info">Voir</a>
       </div>
     </article>
   </div>

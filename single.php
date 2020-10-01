@@ -1,9 +1,9 @@
 <?php
-require "data/acounts.php";
+require "model/accountModel.php";
 
 if(!empty($_GET) && isset($_GET["id"])) {
-  $pos = htmlspecialchars($_GET["id"]);
-  $account = get_accounts()[$pos];
+  $id = htmlspecialchars($_GET["id"]);
+  $account = get_single_accounts($db, $id);
 }
 
 require "view/singleView.php";
