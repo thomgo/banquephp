@@ -8,7 +8,7 @@ include "view/template/header.php";
     <?php if(isset($error)){ echo "<div class='alert alert-danger'>$error</div>"; }?>
     <div class="form-group">
       <label for="mail">Votre email</label>
-      <input type="email" class="form-control" id="mail" aria-describedby="emailHelp" name="mail">
+      <input type="email" class="form-control" id="mail" aria-describedby="emailHelp" name="email">
       <small id="emailHelp" class="form-text text-muted">Votre email d'inscription</small>
     </div>
     <div class="form-group">

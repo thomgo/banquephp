@@ -11,7 +11,7 @@ CREATE TABLE User(
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   lastname VARCHAR(50) NOT NULL,
   firstname VARCHAR(50) NOT NULL,
-  mail VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(50) NOT NULL UNIQUE,
   city VARCHAR(30) NOT NULL,
   city_code CHAR(5) NOT NULL,
   adress VARCHAR(50) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE User(
 )
 ENGINE=InnoDB;
 
-INSERT INTO User(lastname, firstname, mail, city, city_code, adress, sex, password, birth_date)
+INSERT INTO User(lastname, firstname, email, city, city_code, adress, sex, password, birth_date)
 VALUES
 ("Dupont", "Richard", "r.dupont@gmail.com", "Rouen", "76100", "9 rue du gros horloge", "h", "Riri1962!", "1962-05-21"),
 ("Melez", "Claire", "clairemelez@outlook.com", "Lille", "59100", "45 rue du Molinel", "f", "AstraGirl154", "1989-11-14");

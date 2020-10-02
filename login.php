@@ -11,7 +11,7 @@ if(!empty($_POST) && isset($_POST["connexion"])) {
   // Otherwise we try the connexion process
   else {
     // Sanitize the mail input, no htmlspecialchars because no displaying on the page
-    $_POST["mail"] = filter_var($_POST["mail"], FILTER_SANITIZE_EMAIL);
+    $_POST["email"] = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
     // Search for a user according to the given email
     $user = get_user_by_email($db, $_POST);
     // If a user has been found

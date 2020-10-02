@@ -2,9 +2,9 @@
 require "model/connexion.php";
 
 function get_user_by_email($db, $post_data) {
-  $query = $db->prepare("SELECT * FROM User WHERE mail = :email");
+  $query = $db->prepare("SELECT * FROM User WHERE email = :email");
   $query->execute([
-    "email" => $post_data["mail"]
+    "email" => $post_data["email"]
   ]);
   return $query->fetch(PDO::FETCH_ASSOC);
 }
