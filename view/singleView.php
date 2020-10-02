@@ -3,6 +3,7 @@
 include "template/nav.php";
 include "template/header.php";
 
+// if no error deteted
 if(!isset($error)):
 ?>
     <h2>Détails du compte : </h2>
