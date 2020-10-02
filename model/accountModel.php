@@ -1,8 +1,11 @@
 <?php
 require "model/connexion.php";
 
-function get_accounts($db) {
-  $query = $db->query("SELECT * FROM Account");
+function get_accounts($db, $user) {
+  $query = $db->prepare("SELECT * FROM Account WHERE user_id = :user_id");
+  $query->execute([
+    "user_id" => $user["id"]
+  ]);
   return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 

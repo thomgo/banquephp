@@ -6,7 +6,7 @@ if(!isset($_SESSION["user"])) {
   header("Location: login.php");
 }
 
-$accounts = get_accounts($db);
+$accounts = get_accounts($db, $_SESSION["user"]);
 
 require "view/indexView.php";
 ?>
