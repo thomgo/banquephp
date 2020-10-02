@@ -16,7 +16,7 @@ include "view/template/header.php";
         <ul class="list-group list-group-flush border-bottom mb-2">
           <li class="list-group-item">Propriétaire : <?php echo $_SESSION["user"]["firstname"] . " " . $_SESSION["user"]["lastname"]; ?></li>
           <li class="list-group-item">Solde : <?php echo $account["amount"]; ?></li>
-          <li class="list-group-item">Dernière opération : <?php echo $account["last_operation"]; ?></li>
+          <li class="list-group-item">Dernière opération : <?php echo $account["label"] . " " . $account["operation_amount"] . " le " . $account["registered"]; ?></li>
         </ul>
         <a href="#" class="btn btn-info">Côturer</a>
         <a href="operation.html" class="btn btn-info">Dépot/retrait</a>
