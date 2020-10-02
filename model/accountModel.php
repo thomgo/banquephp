@@ -22,9 +22,15 @@ function get_accounts($db, $user) {
 }
 
 function get_single_accounts($db, $id) {
-  $query = $db->prepare("SELECT * FROM Account WHERE id = :id");
+  $query = $db->prepare(
+    "SELECT a.*, o.id AS operation_id, o.operation_type, o.amount AS operation_amount, o.label, o.registered FROM Account AS a
+     LEFT JOIN Operation AS o
+     ON a.id = o.account_id
+     WHERE a.id = :id
+     ORDER BY operation_id DESC
+  ");
   $query->execute([
     "id" => $id
   ]);
-  return $query->fetch(PDO::FETCH_ASSOC);
+  return $query->fetchAll(PDO::FETCH_ASSOC);
 }

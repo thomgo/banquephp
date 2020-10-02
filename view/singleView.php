@@ -3,7 +3,7 @@
 include "template/nav.php";
 include "template/header.php";
 
-if(isset($account) && $account):
+if(!isset($error)):
 ?>
     <h2>Détails du compte : </h2>
     <div class="row mt-5">
@@ -15,9 +15,9 @@ if(isset($account) && $account):
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush border-bottom mb-2">
-              <li class="list-group-item">Propriétaire : <?php echo $account["owner"]; ?></li>
+              <li class="list-group-item">Propriétaire : <?php echo $_SESSION["user"]["firstname"] . " " . $_SESSION["user"]["lastname"]; ?></li>
               <li class="list-group-item">Solde : <?php echo $account["amount"]; ?></li>
-              <li class="list-group-item">Dernière opération : </li>
+              <li class="list-group-item">Date d'ouverture : <?php echo $account["opening_date"]; ?></li>
             </ul>
             <a href="#" class="btn btn-info">Côturer</a>
             <a href="operation.html" class="btn btn-info">Dépot/retrait</a>
@@ -25,10 +25,34 @@ if(isset($account) && $account):
           </div>
         </article>
       </div>
+      <div class="col-12 col-md-6 col-lg-8">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Label</th>
+              <th scope="col">Date</th>
+              <th scope="col">Type</th>
+              <th scope="col">Montant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach($operations as $operation) : ?>
+              <tr>
+                <th><?php echo $operation["operation_id"]; ?></th>
+                <td><?php echo $operation["label"]; ?></td>
+                <td><?php echo $operation["registered"]; ?></td>
+                <td><?php echo $operation["operation_type"]; ?></td>
+                <td><?php echo $operation["operation_amount"]; ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
     </div>
 <?php else: ?>
   <div class="alert alert-danger">
-    <p>Nous avons rencontré un problème, aucun compte ne correspond à votre demande</p>
+    <p><?php echo $error ?></p>
   </div>
 <?php endif; ?>
 
