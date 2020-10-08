@@ -1,6 +1,7 @@
 <?php
 require "model/connexion.php";
 
+// Get all accounts with the last related operation for the logged user
 function get_accounts($db, $user) {
   $query = $db->prepare(
     "SELECT a.id, a.amount, a.opening_date, a.account_type, o.amount AS operation_amount, o.registered, o.label
@@ -21,6 +22,7 @@ function get_accounts($db, $user) {
   return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Get one account withe all the related operations
 function get_single_account($db, $id) {
   $query = $db->prepare(
     "SELECT a.*, o.id AS operation_id, o.operation_type, o.amount AS operation_amount, o.label, o.registered FROM Account AS a
@@ -35,6 +37,7 @@ function get_single_account($db, $id) {
   return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Get one account information (used in the update amount process)
 function get_only_account($db, $id) {
   $query = $db->prepare(
     "SELECT id, amount FROM Account
@@ -46,6 +49,7 @@ function get_only_account($db, $id) {
   return $query->fetch(PDO::FETCH_ASSOC);
 }
 
+// Get the list of accounts for one user in order to make dropdown menus
 function get_account_list($db, $user) {
   $query = $db->prepare(
     "SELECT id, account_type, amount FROM Account
@@ -57,6 +61,7 @@ function get_account_list($db, $user) {
   return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Update the amount of one account (used in operation process)
 function update_account_amount($db, $account) {
   $query = $db->prepare(
     "UPDATE Account

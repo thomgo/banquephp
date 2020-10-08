@@ -1,6 +1,7 @@
 <?php
 require "model/connexion.php";
 
+// Register a new operation in database
 function new_operation($db, $operation) {
   $query = $db->prepare(
     "INSERT INTO Operation(operation_type, amount, registered, account_id)
