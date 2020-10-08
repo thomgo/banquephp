@@ -74,3 +74,18 @@ function update_account_amount($db, $account) {
   ]);
   return $result;
 }
+
+function new_account($db, $account, $user) {
+  $query = $db->prepare(
+    "INSERT INTO Account(amount, opening_date, account_type, user_id)
+    VALUES(:amount, NOW(), :account_type, :user_id)"
+  );
+
+  $result = $query->execute([
+    "amount" => $account["amount"],
+    "account_type" => $account["account_type"],
+    "user_id" => $user["id"]
+  ]);
+
+  return $result;
+}

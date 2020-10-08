@@ -6,7 +6,7 @@ include "view/template/header.php";
 <h2>Vos comptes bancaires</h2>
 <div class="row mt-5">
   <?php foreach ($accounts as $account): ?>
-  <div class="col-12 col-md-6 col-lg-4">
+  <div class="col-12 col-md-6 col-lg-4 my-2">
     <article class="card">
       <div class="card-header">
         <h5 class="card-title"><?php echo $account["account_type"]; ?></h5>
