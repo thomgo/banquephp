@@ -11,7 +11,7 @@ if (empty($_GET) || !isset($_GET["id"])) {
 }
 // If id is in url sanitize it and get the matching account with the operations
 $id = filter_var($_GET["id"], FILTER_SANITIZE_NUMBER_INT);
-$operations = get_single_accounts($db, $id);
+$operations = get_single_account($db, $id);
 $account = $operations[0];
 // If not account matched the id or is not owned by the current user make an error message
 if(!$account || ($account["user_id"] !== $_SESSION["user"]["id"])) {

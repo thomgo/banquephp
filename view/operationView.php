@@ -6,28 +6,34 @@ include "template/header.php";
 <h2>Réaliser une opération</h2>
 <form class="mt-5 fullForm" method="post" action="">
   <div class="form-group">
-    <label for="countType">Choisissez votre compte</label>
-    <select class="form-control" id="countType" name="countType">
-      <option value="courant">Courant</option>
-      <option value="livreta">Livret A</option>
-      <option value="pel">PEL</option>
-      <option value="pea">PEA</option>
-      <option value="perp">PERP</option>
+    <?php
+      if(isset($error)) {
+        echo "<div class='alert alert-danger'>$error</div>";
+      }
+      if(isset($success)) {
+        echo "<div class='alert alert-success'>$success</div>";
+      }
+    ?>
+    <label for="account_id">Choisissez votre compte</label>
+    <select class="form-control" id="account_id" name="account_id">
+      <?php foreach ($account_types as $type): ?>
+      <option value='<?php echo $type['id']?>'><?php echo "Nr : " . $type["id"] . " " . $type["account_type"] . " (" . $type["amount"] . ")" ?></option>
+    <?php endforeach; ?>
     </select>
   </div>
   <div class="form-group">
-    <label for="opération">Type d'opération</label>
-    <select class="form-control" id="opération" name="opération">
-      <option value="deposit">Dépot</option>
-      <option value="withdrawal">Retrait</option>
+    <label for="operation">Type d'opération</label>
+    <select class="form-control" id="operation" name="operation_type">
+      <option value="crédit">Dépot</option>
+      <option value="débit">Retrait</option>
     </select>
   </div>
   <div class="form-group">
     <label for="amount">Montant en euros</label>
-    <input type="number" name="amount" id="amount" min="0" value="0">
+    <input type="number" step="0.01" name="amount" id="amount" min="1" value="1">
   </div>
   <div class="text-center">
-    <button type="submit" class="btn btn-info">Exécuter</button>
+    <button type="submit" value="operation" name="operation" class="btn btn-info">Exécuter</button>
   </div>
 </form>
 

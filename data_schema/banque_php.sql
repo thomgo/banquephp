@@ -16,7 +16,7 @@ CREATE TABLE User(
   city_code CHAR(5) NOT NULL,
   adress VARCHAR(50) NOT NULL,
   sex CHAR(1) NOT NULL,
-  password VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
   birth_date DATE NOT NULL,
   PRIMARY KEY (id)
 )

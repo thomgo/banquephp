@@ -21,7 +21,7 @@ function get_accounts($db, $user) {
   return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function get_single_accounts($db, $id) {
+function get_single_account($db, $id) {
   $query = $db->prepare(
     "SELECT a.*, o.id AS operation_id, o.operation_type, o.amount AS operation_amount, o.label, o.registered FROM Account AS a
      LEFT JOIN Operation AS o
@@ -33,4 +33,39 @@ function get_single_accounts($db, $id) {
     "id" => $id
   ]);
   return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_only_account($db, $id) {
+  $query = $db->prepare(
+    "SELECT id, amount FROM Account
+     WHERE id = :id"
+   );
+  $query->execute([
+    "id" => $id
+  ]);
+  return $query->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_account_types($db, $user) {
+  $query = $db->prepare(
+    "SELECT id, account_type, amount FROM Account
+    WHERE user_id = :user_id"
+  );
+  $query->execute([
+    "user_id" => $user["id"]
+  ]);
+  return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function update_account_amount($db, $account) {
+  $query = $db->prepare(
+    "UPDATE Account
+    SET amount = :amount
+    WHERE id = :id"
+  );
+  $result = $query->execute([
+    "amount" => $account["amount"],
+    "id" => $account["id"]
+  ]);
+  return $result;
 }
