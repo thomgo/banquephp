@@ -38,6 +38,6 @@ if(!empty($_POST) && isset($_POST["operation"])) {
 }
 
 // Get all the accounts types for one user
-$account_types = get_account_types($db, $_SESSION["user"]);
+$account_list = get_account_list($db, $_SESSION["user"]);
 
 require "view/operationView.php";

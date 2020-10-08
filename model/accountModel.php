@@ -46,7 +46,7 @@ function get_only_account($db, $id) {
   return $query->fetch(PDO::FETCH_ASSOC);
 }
 
-function get_account_types($db, $user) {
+function get_account_list($db, $user) {
   $query = $db->prepare(
     "SELECT id, account_type, amount FROM Account
     WHERE user_id = :user_id"
