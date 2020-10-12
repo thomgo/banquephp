@@ -20,9 +20,8 @@ if(!isset($error)):
               <li class="list-group-item">Solde : <?php echo $account["amount"]; ?></li>
               <li class="list-group-item">Date d'ouverture : <?php echo $account["opening_date"]; ?></li>
             </ul>
-            <a href="#" class="btn btn-info">Côturer</a>
+            <a href="#" class="btn btn-info">Clôturer</a>
             <a href="operation.php" class="btn btn-info">Dépot/retrait</a>
-            <a href="#" class="btn btn-info">Voir</a>
           </div>
         </article>
       </div>
