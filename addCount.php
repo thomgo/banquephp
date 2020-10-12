@@ -1,52 +1,42 @@
-<?php include "template/nav.php"; ?>
-<?php include "template/header.php"; ?>
+<?php
+require "model/accountModel.php";
 
-<h2>Ouvrir un compte</h2>
-<div class="row">
-  <div class="col-12 col-md-6">
-    <form class="" method="post" action="">
-      <div class="form-group">
-        <label for="countType">Type de compte</label>
-        <select class="form-control" id="countType" name="name">
-          <option selectd value="Compte courant">Courant</option>
-          <option value="livret A">Livret A</option>
-          <option value="PEL">PEL</option>
-          <option value="PEA">PEA</option>
-          <option value="PERP">PERP</option>
-        </select>
-    </div>
-    <div class="form-group">
-      <label for="amount">Montant à l'ouverture</label>
-      <input type="number" name="amount" id="amount" min="51" value="51">
-    </div>
-    <div class="text-center">
-      <button name="new_account" type="submit" class="btn btn-info">Ouvrir</button>
-    </div>
-    </form>
-  </div>
-  <div class="col-12 col-md-6">
-    <?php
-    if(isset($_POST["new_account"])):
-      $account = array_map(htmlspecialchars, $_POST);
-    ?>
-    <article class="card">
-      <div class="card-header">
-        <h5 class="card-title"><?php echo $account["name"]; ?></h5>
-        <h6 class="card-subtitle mb-2 text-muted"><?php echo "some random number" ?></h6>
-      </div>
-      <div class="card-body">
-        <ul class="list-group list-group-flush border-bottom mb-2">
-          <li class="list-group-item">Propriétaire : <?php echo "you"; ?></li>
-          <li class="list-group-item">Solde : <?php echo $account["amount"]; ?></li>
-          <li class="list-group-item">Dernière opération : <?php echo "/"; ?></li>
-        </ul>
-        <a href="#" class="btn btn-info">Côturer</a>
-        <a href="operation.html" class="btn btn-info">Dépot/retrait</a>
-        <a href="#" class="btn btn-info">Voir</a>
-      </div>
-    </article>
-    <?php endif; ?>
-  </div>
-</div>
+session_start();
+if(!isset($_SESSION["user"])) {
+  header("Location: login.php");
+}
 
-<?php include "template/footer.php"; ?>
+if(isset($_POST["new_account"])) {
+  // Will store the different error messages
+  $error = "";
+  $authorized_accounts = ["Livret A", "PEL", "PEA", "PERP"];
+  // Sanitize inputs to be displayed later
+  $_POST = array_map("htmlspecialchars", $_POST);
+  // If the account type is not in the authorized list add error message
+  if(!in_array($_POST["account_type"], $authorized_accounts)) {
+    $error .= "<li>Type de compte non reconnu</li>";
+  }
+  // Filter validation rules for amount
+  $amount_options = [
+    'options' => [
+        'min_range' => 50
+      ]
+    ];
+  // If amount is not a valid integer add error message
+  if(!filter_var($_POST["amount"], FILTER_VALIDATE_INT, $amount_options)) {
+    $error .= "<li>Montant minimum : 50 euros</li>";
+  }
+  // If no error has been found
+  if(empty($error)) {
+    // Add the account in DB
+    $result = new_account($db, $_POST, $_SESSION["user"]);
+    // If insert is a success redirect on home page
+    if($result) {
+      header("Location: index.php");
+      exit();
+    }
+    $error = "Une erreur est survenue, votre compte n'a pas été enregistré";
+  }
+}
+
+require "view/addCountView.php";
