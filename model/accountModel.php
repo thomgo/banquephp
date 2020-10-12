@@ -49,13 +49,15 @@ function get_single_account($db, $id) {
 }
 
 // Get one account information (used in the update amount process)
-function get_only_account($db, $id) {
+function get_only_account($db, $id, $user) {
   $query = $db->prepare(
     "SELECT id, amount FROM Account
-     WHERE id = :id"
+     WHERE id = :id
+     AND user_id = :user_id"
    );
   $query->execute([
-    "id" => $id
+    "id" => $id,
+    "user_id" => $user["id"]
   ]);
   return $query->fetch(PDO::FETCH_ASSOC);
 }

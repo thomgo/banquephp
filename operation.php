@@ -17,7 +17,7 @@ if(!empty($_POST) && isset($_POST["operation"])) {
   }
   else {
     // Try to find the account selected in the form
-    $account = get_only_account($db, $_POST["account_id"]);
+    $account = get_only_account($db, $_POST["account_id"], $_SESSION["user"]);
     // If an account has been found
     if($account) {
       // Update the amount of the account according to the type of operation
