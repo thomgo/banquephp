@@ -2,10 +2,11 @@
 require "model/connexion.php";
 
 // Function used to log the user
-function get_user_by_email($db, $post_data) {
+function get_user_by_email($db, $user) {
   $query = $db->prepare("SELECT * FROM User WHERE email = :email");
   $query->execute([
-    "email" => $post_data["email"]
+    "email" => $user->getEmail()
   ]);
-  return $query->fetch(PDO::FETCH_ASSOC);
+  $query->setFetchMode(PDO::FETCH_CLASS, 'User');
+  return $query->fetch();
 }

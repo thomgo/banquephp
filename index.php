@@ -1,4 +1,5 @@
 <?php
+require "model/entity/user.php";
 require "model/accountModel.php";
 // Check if user is logged
 session_start();

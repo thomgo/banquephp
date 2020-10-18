@@ -2,7 +2,7 @@
 require "model/connexion.php";
 
 // Get all accounts with the last related operation for the logged user
-function get_accounts(PDO $db, Array $user):?Array {
+function get_accounts(PDO $db, User $user):?Array {
   $query = $db->prepare(
     "SELECT a.id, a.amount, a.opening_date, a.account_type, o.amount AS operation_amount, o.registered, o.label
      FROM Account AS a
@@ -17,7 +17,7 @@ function get_accounts(PDO $db, Array $user):?Array {
     WHERE user_id = :user_id"
   );
   $query->execute([
-    "user_id" => $user["id"]
+    "user_id" => $user->getId()
   ]);
   return $query->fetchAll(PDO::FETCH_ASSOC);
 

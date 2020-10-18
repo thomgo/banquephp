@@ -50,7 +50,7 @@
     <aside class="text-white">
       <?php
         if(isset($_SESSION) && isset($_SESSION["user"])) {
-          echo $_SESSION["user"]["firstname"] . " " . $_SESSION["user"]["lastname"];
+          echo $_SESSION["user"]->getFirstname() . " " . $_SESSION["user"]->getLastname();
           echo "<a href='logout.php' class='btn btn-secondary mx-1'>Deconnexion</a>";
         }
       ?>

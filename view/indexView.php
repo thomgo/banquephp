@@ -14,7 +14,7 @@ include "view/template/header.php";
       </div>
       <div class="card-body">
         <ul class="list-group list-group-flush border-bottom mb-2">
-          <li class="list-group-item">Propriétaire : <?php echo $_SESSION["user"]["firstname"] . " " . $_SESSION["user"]["lastname"]; ?></li>
+          <li class="list-group-item">Propriétaire : <?php echo $_SESSION["user"]->getFirstname() . " " . $_SESSION["user"]->getLastname(); ?></li>
           <li class="list-group-item">Solde : <?php echo $account["amount"]; ?></li>
           <li class="list-group-item">Dernière opération : <?php echo $account["label"] . " " . $account["operation_amount"] . " le " . $account["registered"]; ?></li>
         </ul>
