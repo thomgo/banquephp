@@ -14,7 +14,8 @@ if(!empty($_POST) && isset($_POST["connexion"])) {
     try {
       $logUser = new User($_POST);
       // Search for a user according to the given email
-      $user = get_user_by_email($db, $logUser);
+      $userModel = new UserModel();
+      $user = $userModel->getUserByMail($logUser);
     } catch (Exception $e) {
       $error = $e->getMessage();
     }
