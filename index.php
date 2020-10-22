@@ -9,7 +9,8 @@ if(!isset($_SESSION["user"])) {
 }
 
 // Get all the accounts with the last operation
-$accounts = get_accounts($db, $_SESSION["user"]);
+$accountModel = new AccountModel();
+$accounts = $accountModel->getAccounts($db, $_SESSION["user"]);
 
 require "view/indexView.php";
 ?>
