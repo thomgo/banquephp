@@ -11,14 +11,14 @@ if(!isset($error)):
       <div class="col-12 col-md-6 col-lg-4">
         <article class="card">
           <div class="card-header">
-            <h5 class="card-title"><?php echo $account["account_type"]; ?></h5>
-            <h6 class="card-subtitle mb-2 text-muted">Numéro de compte : <?php echo $account["id"]; ?></h6>
+            <h5 class="card-title"><?php echo $account->getAccount_type(); ?></h5>
+            <h6 class="card-subtitle mb-2 text-muted">Numéro de compte : <?php echo $account->getId(); ?></h6>
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush border-bottom mb-2">
-              <li class="list-group-item">Propriétaire : <?php echo $_SESSION["user"]["firstname"] . " " . $_SESSION["user"]["lastname"]; ?></li>
-              <li class="list-group-item">Solde : <?php echo $account["amount"]; ?></li>
-              <li class="list-group-item">Date d'ouverture : <?php echo $account["opening_date"]; ?></li>
+              <li class="list-group-item">Propriétaire : <?php echo $_SESSION["user"]->getFirstname() . " " . $_SESSION["user"]->getLastname(); ?></li>
+              <li class="list-group-item">Solde : <?php echo $account->getAmount(); ?></li>
+              <li class="list-group-item">Date d'ouverture : <?php echo $account->getOpening_date(); ?></li>
             </ul>
             <a href="#" class="btn btn-info">Clôturer</a>
             <a href="operation.php" class="btn btn-info">Dépot/retrait</a>
@@ -37,13 +37,13 @@ if(!isset($error)):
             </tr>
           </thead>
           <tbody>
-            <?php foreach($operations as $operation) : ?>
+            <?php foreach($account->getOperations() as $operation) : ?>
               <tr>
-                <th><?php echo $operation["operation_id"]; ?></th>
-                <td><?php echo $operation["label"]; ?></td>
-                <td><?php echo $operation["registered"]; ?></td>
-                <td><?php echo $operation["operation_type"]; ?></td>
-                <td><?php echo $operation["operation_amount"]; ?></td>
+                <th><?php echo $operation->getId(); ?></th>
+                <td><?php echo $operation->getLabel(); ?></td>
+                <td><?php echo $operation->getRegistered(); ?></td>
+                <td><?php echo $operation->getOperation_type(); ?></td>
+                <td><?php echo $operation->getOperation_amount(); ?></td>
               </tr>
             <?php endforeach; ?>
           </tbody>

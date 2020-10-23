@@ -27,21 +27,31 @@ class AccountModel extends Model {
     return $accounts;
   }
 
-}
+  // Get one account withe all the related operations
+  public function getSingleAccount($id, User $user) {
+    $query = $this->db->prepare(
+      "SELECT a.*, o.id AS operation_id, o.operation_type, o.amount AS operation_amount, o.label, o.registered FROM Account AS a
+       LEFT JOIN Operation AS o
+       ON a.id = o.account_id
+       WHERE a.id = :id
+       AND a.user_id = :user_id
+       ORDER BY operation_id DESC
+    ");
+    $query->execute([
+      "id" => $id,
+      "user_id" => $user->getId()
+    ]);
+    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+    $account = new Account($data[0]);
+    foreach ($data as $key => $operation) {
+      $operationObject = new Operation($operation);
+      // Avoid to get account id in all operations
+      $operationObject->setId($operation["operation_id"]);
+      $account->addOperation($operationObject);
+    }
+    return $account;
+  }
 
-// Get one account withe all the related operations
-function get_single_account($db, $id) {
-  $query = $db->prepare(
-    "SELECT a.*, o.id AS operation_id, o.operation_type, o.amount AS operation_amount, o.label, o.registered FROM Account AS a
-     LEFT JOIN Operation AS o
-     ON a.id = o.account_id
-     WHERE a.id = :id
-     ORDER BY operation_id DESC
-  ");
-  $query->execute([
-    "id" => $id
-  ]);
-  return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // Get one account information (used in the update amount process)
