@@ -1,5 +1,5 @@
 <?php
-require "model.php";
+require_once "model.php";
 
 class AccountModel extends Model {
 
@@ -19,7 +19,12 @@ class AccountModel extends Model {
     $query->execute([
       "user_id" => $user->getId()
     ]);
-    return $query->fetchAll(PDO::FETCH_ASSOC);
+    $accounts = $query->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($accounts as $key => $account) {
+      $accounts[$key] = new Account($account);
+      $accounts[$key]->setLast_operation(new Operation($account));
+    }
+    return $accounts;
   }
 
 }

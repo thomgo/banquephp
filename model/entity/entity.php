@@ -9,7 +9,7 @@ abstract class Entity {
   }
 
 
-  public function setId(int $id):User
+  public function setId(int $id):self
   {
       $this->id = $id;
 

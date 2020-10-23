@@ -1,5 +1,5 @@
 <?php
-require "model.php";
+require_once "model.php";
 
 final class UserModel extends Model {
   // Function used to log the user

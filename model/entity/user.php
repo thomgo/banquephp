@@ -1,5 +1,5 @@
 <?php
-require "model/entity/entity.php";
+require_once "model/entity/entity.php";
 
 class User extends Entity {
 

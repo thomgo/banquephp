@@ -9,18 +9,21 @@ include "view/template/header.php";
   <div class="col-12 col-md-6 col-lg-4 my-2">
     <article class="card">
       <div class="card-header">
-        <h5 class="card-title"><?php echo $account["account_type"]; ?></h5>
-        <h6 class="card-subtitle mb-2 text-muted">Numéro de compte : <?php echo $account["id"]; ?></h6>
+        <h5 class="card-title"><?php echo $account->getAccount_type(); ?></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Numéro de compte : <?php echo $account->getId(); ?></h6>
       </div>
       <div class="card-body">
         <ul class="list-group list-group-flush border-bottom mb-2">
           <li class="list-group-item">Propriétaire : <?php echo $_SESSION["user"]->getFirstname() . " " . $_SESSION["user"]->getLastname(); ?></li>
-          <li class="list-group-item">Solde : <?php echo $account["amount"]; ?></li>
-          <li class="list-group-item">Dernière opération : <?php echo $account["label"] . " " . $account["operation_amount"] . " le " . $account["registered"]; ?></li>
+          <li class="list-group-item">Solde : <?php echo $account->getAmount(); ?></li>
+          <li class="list-group-item">
+            Dernière opération :
+            <?php echo $account->getLast_operation()->getLabel() . " " . $account->getLast_operation()->getOperation_amount() . " le " . $account->getLast_operation()->getRegistered(); ?>
+          </li>
         </ul>
         <a href="#" class="btn btn-info">Côturer</a>
         <a href="operation.php" class="btn btn-info">Dépot/retrait</a>
-        <a href="single.php?id=<?php echo $account['id']; ?>" class="btn btn-info">Voir</a>
+        <a href="single.php?id=<?php echo $account->getId(); ?>" class="btn btn-info">Voir</a>
       </div>
     </article>
   </div>
