@@ -8,13 +8,13 @@ class AccountModel extends Model {
     $query = $db->prepare(
       "SELECT a.id, a.amount, a.opening_date, a.account_type, o.amount AS operation_amount, o.registered, o.label
       FROM Account AS a
-      INNER JOIN Operation AS o
+      LEFT JOIN Operation AS o
       ON a.id = o.account_id
-      WHERE a.user_id = 1 && o.id = (
+      WHERE a.user_id = :user_id && (o.id = (
           SELECT MAX(o2.id)
           FROM Operation AS o2
           WHERE o2.account_id = a.id
-      	)"
+      	)OR o.id IS NULL)"
     );
     $query->execute([
       "user_id" => $user->getId()
@@ -22,6 +22,7 @@ class AccountModel extends Model {
     $accounts = $query->fetchAll(PDO::FETCH_ASSOC);
     foreach ($accounts as $key => $account) {
       $accounts[$key] = new Account($account);
+      if(!empty($account["operation_amount"]))
       $accounts[$key]->setLast_operation(new Operation($account));
     }
     return $accounts;
@@ -43,13 +44,30 @@ class AccountModel extends Model {
     ]);
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
     $account = new Account($data[0]);
-    foreach ($data as $key => $operation) {
-      $operationObject = new Operation($operation);
-      // Avoid to get account id in all operations
-      $operationObject->setId($operation["operation_id"]);
-      $account->addOperation($operationObject);
+    if(isset($data[0]["operation_amount"])) {
+      foreach ($data as $key => $operation) {
+        $operationObject = new Operation($operation);
+        // Avoid to get account id in all operations
+        $operationObject->setId($operation["operation_id"]);
+        $account->addOperation($operationObject);
+      }
     }
     return $account;
+  }
+
+  public function newAccount(Account $account) {
+    $query = $this->db->prepare(
+      "INSERT INTO Account(amount, opening_date, account_type, user_id)
+      VALUES(:amount, NOW(), :account_type, :user_id)"
+    );
+
+    $result = $query->execute([
+      "amount" => $account->getAmount(),
+      "account_type" => $account->getAccount_type(),
+      "user_id" => $account->getUser()->getId()
+    ]);
+
+    return $result;
   }
 
 }
@@ -82,29 +100,20 @@ function get_account_list($db, $user) {
 
 // Update the amount of one account (used in operation process)
 function update_account_amount($db, $account) {
-  $query = $db->prepare(
-    "UPDATE Account
-    SET amount = :amount
-    WHERE id = :id"
-  );
-  $result = $query->execute([
-    "amount" => $account["amount"],
-    "id" => $account["id"]
-  ]);
-  return $result;
-}
-
-function new_account($db, $account, $user) {
-  $query = $db->prepare(
-    "INSERT INTO Account(amount, opening_date, account_type, user_id)
-    VALUES(:amount, NOW(), :account_type, :user_id)"
-  );
-
-  $result = $query->execute([
-    "amount" => $account["amount"],
-    "account_type" => $account["account_type"],
-    "user_id" => $user["id"]
-  ]);
-
-  return $result;
+  try {
+    $this->pdo->beginTransaction();
+    $query = $db->prepare(
+      "UPDATE Account
+      SET amount = :amount
+      WHERE id = :id"
+    );
+    $result = $query->execute([
+      "amount" => $account["amount"],
+      "id" => $account["id"]
+    ]);
+    $this->pdo->commit();
+    return $result;
+  } catch (\Exception $e) {
+    $this->pdo->rollBack();
+  }
 }

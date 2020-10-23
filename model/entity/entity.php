@@ -20,6 +20,8 @@ abstract class Entity {
     foreach ($data as $key => $value) {
       $method = "set" . ucfirst($key);
       if(method_exists($this, $method)) {
+        // Santize every entries in object
+        $value = htmlspecialchars($value);
         $this->$method($value);
       }
     }

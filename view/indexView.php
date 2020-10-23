@@ -18,7 +18,11 @@ include "view/template/header.php";
           <li class="list-group-item">Solde : <?php echo $account->getAmount(); ?></li>
           <li class="list-group-item">
             Dernière opération :
-            <?php echo $account->getLast_operation()->getLabel() . " " . $account->getLast_operation()->getOperation_amount() . " le " . $account->getLast_operation()->getRegistered(); ?>
+            <?php
+              if(!empty($account->getLast_operation())) {
+                echo $account->getLast_operation()->getLabel() . " " . $account->getLast_operation()->getOperation_amount() . " le " . $account->getLast_operation()->getRegistered();
+              }
+            ?>
           </li>
         </ul>
         <a href="#" class="btn btn-info">Côturer</a>

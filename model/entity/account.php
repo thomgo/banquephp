@@ -3,11 +3,19 @@
 require_once "model/entity/entity.php";
 
 class Account extends Entity {
+  const ACCOUNT_TYPES = ["Compte courant", "Livret A", "PEL", "PEA", "PERP"];
+  const AMOUNT_OPTIONS = [
+    'options' => [
+        'min_range' => 50
+      ]
+    ];
+
   protected int $amount;
   protected string $opening_date;
   protected string $account_type;
-  protected ?Operation $last_operation;
+  protected ?Operation $last_operation = null;
   protected array $operations = [];
+  protected User $user;
 
   public function __construct(array $data = null) {
     if($data) {
@@ -23,9 +31,13 @@ class Account extends Entity {
 
   public function setAmount(int $amount):Account
   {
+    // If amount is not a valid integer throw an exception
+    if(filter_var($amount, FILTER_VALIDATE_INT, self::AMOUNT_OPTIONS)) {
       $this->amount = $amount;
-
       return $this;
+    }
+    throw new Exception("<li>Montant minimum : 50 euros</li>");
+
   }
 
   public function getOpening_date(): string
@@ -49,9 +61,13 @@ class Account extends Entity {
 
   public function setAccount_type(string $account_type):Account
   {
+    // If the account type is not in the authorized list throw exception
+    if(in_array($account_type, self::ACCOUNT_TYPES)) {
       $this->account_type = $account_type;
-
       return $this;
+    }
+    throw new Exception("<li>Type de compte non reconnu : $account_type</li>");
+
   }
 
   public function getLast_operation():?Operation
@@ -76,6 +92,19 @@ class Account extends Entity {
   public function addOperation(Operation $operation):Account
   {
       array_push($this->operations, $operation);
+
+      return $this;
+  }
+
+  public function getUser():User
+  {
+       return $this->user;
+  }
+
+
+  public function setUser(User $user):Account
+  {
+      $this->user = $user;
 
       return $this;
   }
