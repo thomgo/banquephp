@@ -1,4 +1,5 @@
 <?php
+require "model/entity/user.php";
 require "model/userModel.php";
 // If the connexion form has been submited
 if(!empty($_POST) && isset($_POST["connexion"])) {
@@ -10,14 +11,18 @@ if(!empty($_POST) && isset($_POST["connexion"])) {
   }
   // Otherwise we try the connexion process
   else {
-    // Sanitize the mail input, no htmlspecialchars because no displaying on the page
-    $_POST["email"] = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
-    // Search for a user according to the given email
-    $user = get_user_by_email($db, $_POST);
+    try {
+      $logUser = new User($_POST);
+      // Search for a user according to the given email
+      $userModel = new UserModel();
+      $user = $userModel->getUserByMail($logUser);
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+    }
     // If a user has been found
     if($user) {
       // Check the password and if it is correct log the user and go to home page
-      if(password_verify($_POST["password"], $user["password"])) {
+      if(password_verify($logUser->getPassword(), $user->getPassword())) {
         session_start();
         $_SESSION["user"] = $user;
         header("Location: index.php");
@@ -28,6 +33,5 @@ if(!empty($_POST) && isset($_POST["connexion"])) {
     $error = "Identifiants incorrectes";
   }
 }
-
 
 require "view/loginView.php";

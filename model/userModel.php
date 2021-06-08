@@ -1,11 +1,14 @@
 <?php
-require "model/connexion.php";
+require_once "model.php";
 
-// Function used to log the user
-function get_user_by_email($db, $post_data) {
-  $query = $db->prepare("SELECT * FROM User WHERE email = :email");
-  $query->execute([
-    "email" => $post_data["email"]
-  ]);
-  return $query->fetch(PDO::FETCH_ASSOC);
+final class UserModel extends Model {
+  // Function used to log the user
+  public function getUserByMail(User $user):?User {
+    $query = $this->db->prepare("SELECT * FROM User WHERE email = :email");
+    $query->execute([
+      "email" => $user->getEmail()
+    ]);
+    $query->setFetchMode(PDO::FETCH_CLASS, 'User');
+    return $query->fetch();
+  }
 }
