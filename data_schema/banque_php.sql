@@ -7,7 +7,7 @@ CREATE USER 'BanquePHP'@'Localhost';
 GRANT ALL PRIVILEGES ON banque_php.* To 'BanquePHP'@'Localhost' IDENTIFIED BY 'banque76';
 
 
-CREATE TABLE User(
+CREATE TABLE banque_php.User(
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   lastname VARCHAR(50) NOT NULL,
   firstname VARCHAR(50) NOT NULL,
@@ -24,8 +24,8 @@ ENGINE=InnoDB;
 
 INSERT INTO User(lastname, firstname, email, city, city_code, adress, sex, password, birth_date)
 VALUES
-("Dupont", "Richard", "r.dupont@gmail.com", "Rouen", "76100", "9 rue du gros horloge", "h", "Riri1962!", "1962-05-21"),
-("Melez", "Claire", "clairemelez@outlook.com", "Lille", "59100", "45 rue du Molinel", "f", "AstraGirl154", "1989-11-14");
+("Dupont", "Richard", "r.dupont@gmail.com", "Rouen", "76100", "9 rue du gros horloge", "h", "password1", "1962-05-21"),
+("Melez", "Claire", "clairemelez@outlook.com", "Lille", "59100", "45 rue du Molinel", "f", "password2", "1989-11-14");
 
 CREATE TABLE Account(
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
