@@ -7,7 +7,7 @@ CREATE USER 'BanquePHP'@'Localhost';
 GRANT ALL PRIVILEGES ON banque_php.* To 'BanquePHP'@'Localhost' IDENTIFIED BY 'banque76';
 
 
-CREATE TABLE User(
+CREATE TABLE banque_php.User(
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   lastname VARCHAR(50) NOT NULL,
   firstname VARCHAR(50) NOT NULL,
