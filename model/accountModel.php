@@ -4,8 +4,8 @@ require_once "model.php";
 class AccountModel extends Model {
 
   // Get all accounts with the last related operation for the logged user
-  public function getAccounts(PDO $db, User $user):?Array {
-    $query = $db->prepare(
+  public function getAccounts(User $user):?Array {
+    $query = $this->db->prepare(
       "SELECT a.id, a.amount, a.opening_date, a.account_type, o.amount AS operation_amount, o.registered, o.label
       FROM Account AS a
       LEFT JOIN Operation AS o
@@ -29,7 +29,7 @@ class AccountModel extends Model {
   }
 
   // Get one account withe all the related operations
-  public function getSingleAccount($id, User $user) {
+  public function getSingleAccount(int $id, User $user) {
     $query = $this->db->prepare(
       "SELECT a.*, o.id AS operation_id, o.operation_type, o.amount AS operation_amount, o.label, o.registered FROM Account AS a
        LEFT JOIN Operation AS o
@@ -70,50 +70,48 @@ class AccountModel extends Model {
     return $result;
   }
 
-}
-
-// Get one account information (used in the update amount process)
-function get_only_account($db, $id, $user) {
-  $query = $db->prepare(
-    "SELECT id, amount FROM Account
-     WHERE id = :id
-     AND user_id = :user_id"
-   );
-  $query->execute([
-    "id" => $id,
-    "user_id" => $user["id"]
-  ]);
-  return $query->fetch(PDO::FETCH_ASSOC);
-}
-
-// Get the list of accounts for one user in order to make dropdown menus
-function get_account_list($db, $user) {
-  $query = $db->prepare(
-    "SELECT id, account_type, amount FROM Account
-    WHERE user_id = :user_id"
-  );
-  $query->execute([
-    "user_id" => $user["id"]
-  ]);
-  return $query->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Update the amount of one account (used in operation process)
-function update_account_amount($db, $account) {
-  try {
-    $this->pdo->beginTransaction();
-    $query = $db->prepare(
-      "UPDATE Account
-      SET amount = :amount
-      WHERE id = :id"
+  // Get one account information (used in the update amount process)
+  public function getAccountAmount(int $id, User $user) {
+    $query = $this->db->prepare(
+      "SELECT id, amount FROM Account
+      WHERE id = :id
+      AND user_id = :user_id"
     );
-    $result = $query->execute([
-      "amount" => $account["amount"],
-      "id" => $account["id"]
+    $query->execute([
+      "id" => $id,
+      "user_id" => $user->getId()
     ]);
-    $this->pdo->commit();
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+    return new Account($result);
+  }
+
+  // Get the list of accounts for one user in order to make dropdown menus
+  public function getAccountList(User $user) {
+    $query = $this->db->prepare(
+      "SELECT id, account_type, amount FROM Account
+      WHERE user_id = :user_id"
+    );
+    $query->execute([
+      "user_id" => $user->getId()
+    ]);
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    foreach($result as $key => $value) {
+      $result[$key] = new Account($value);
+    }
     return $result;
-  } catch (\Exception $e) {
-    $this->pdo->rollBack();
+  }
+
+  // Update the amount of one account (used in operation process)
+  public function updateAccountAmount(Account $account) {
+      $query = $this->db->prepare(
+        "UPDATE Account
+        SET amount = :amount
+        WHERE id = :id"
+      );
+      $result = $query->execute([
+        "amount" => $account->getAmount(),
+        "id" => $account->getId()
+      ]);
+      return $result;
   }
 }

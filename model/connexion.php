@@ -5,23 +5,21 @@ abstract class Connexion {
   const DBNAME = "banque_php";
   const USER = "BanquePHP";
   const PASSWORD = "banque76";
+  private static ?PDO $db = null;
 
   public static function getPDOConnexion() {
     try {
-      $db = new PDO("mysql:host=" . self::HOST . ";dbname=" . self::DBNAME, self::USER, self::PASSWORD);
-      return $db;
-    } catch (\Exception $e) {
+      if(!self::$db) {
+        $db = new PDO("mysql:host=" . self::HOST . ";dbname=" . self::DBNAME, self::USER, self::PASSWORD);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        self::$db = $db;
+      }
+      return self::$db;
+    } 
+    catch (\Exception $e) {
       echo "Erreur lors de la connexion à la base de donée: " . $e->getMessage() . "<br/>";
       die();
     }
   }
 
-}
-
-try {
-  $db = new PDO('mysql:host=localhost;dbname=banque_php', "BanquePHP", "banque76");
-  return $db;
-} catch (\Exception $e) {
-  echo "Erreur lors de la conenxion à la base de donée: " . $e->getMessage() . "<br/>";
-  die();
 }
