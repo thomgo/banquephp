@@ -4,11 +4,7 @@ require_once "model/entity/entity.php";
 
 class Account extends Entity {
   const ACCOUNT_TYPES = ["Compte courant", "Livret A", "PEL", "PEA", "PERP"];
-  const AMOUNT_OPTIONS = [
-    'options' => [
-        'min_range' => 50
-      ]
-    ];
+  const MIN_AMOUNT = 50;
 
   protected float $amount;
   protected string $opening_date;
@@ -31,8 +27,9 @@ class Account extends Entity {
 
   public function setAmount(float $amount):Account
   {
-    // If amount is not a valid integer throw an exception
-    if(filter_var($amount, FILTER_VALIDATE_FLOAT, self::AMOUNT_OPTIONS)) {
+    // check if amount reaches the requested minimum
+    // Note : using php filter validate float causes the local server to shutdown if filter does not validate the float value
+    if($amount > self::MIN_AMOUNT) {
       $this->amount = $amount;
       return $this;
     }

@@ -12,12 +12,12 @@ if(isset($_POST["new_account"])) {
   try {
     $account = new Account($_POST);
     $account->setUser($_SESSION["user"]);
-  } catch (\Exception $e) {
+  } catch (Exception $e) {
     // Will store the different error messages
     $error = $e->getMessage();
   }
   // If no error has been found
-  if(empty($error)) {
+  if(!isset($error)) {
     // Add the account in DB
     $accountModel = new AccountModel();
     $result = $accountModel->newAccount($account);
