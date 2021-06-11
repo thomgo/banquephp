@@ -29,6 +29,9 @@ class Operation extends Entity {
 
   public function getOperation_amount(): int
   {
+      if($this->operation_type === "débit" && $this->operation_amount > 0) {
+        return -$this->operation_amount;
+      }
        return $this->operation_amount;
   }
 

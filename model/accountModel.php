@@ -6,7 +6,7 @@ class AccountModel extends Model {
   // Get all accounts with the last related operation for the logged user
   public function getAccounts(User $user):?Array {
     $query = $this->db->prepare(
-      "SELECT a.id, a.amount, a.opening_date, a.account_type, o.amount AS operation_amount, o.registered, o.label
+      "SELECT a.id, a.amount, a.opening_date, a.account_type, o.amount AS operation_amount, o.registered, o.label, o.operation_type
       FROM Account AS a
       LEFT JOIN Operation AS o
       ON a.id = o.account_id

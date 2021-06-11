@@ -59,8 +59,8 @@ ENGINE=InnoDB;
 
 INSERT INTO Operation(operation_type, amount, registered, label, account_id)
 VALUES
-("débit", -15.60, NOW(), "le poulet d'or SARL", 1),
+("débit", 15.60, NOW(), "le poulet d'or SARL", 1),
 ("crédit", 500, NOW(), NULL, 2),
-("débit", -7.62, NOW(), "carrefour essence", 2),
-("débit", -50, NOW(), "frais de gestion", 2)
+("débit", 7.62, NOW(), "carrefour essence", 2),
+("débit", 50, NOW(), "frais de gestion", 2)
 ;
