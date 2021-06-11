@@ -27,6 +27,7 @@ class Operation extends Entity {
       return $this;
   }
 
+  // Getter now adding a minus sign if necessary since getter are made to deal with data formating
   public function getOperation_amount(): float
   {
       if($this->operation_type === "débit" && $this->operation_amount > 0) {

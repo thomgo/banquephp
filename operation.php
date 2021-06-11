@@ -23,14 +23,12 @@ if(!empty($_POST) && isset($_POST["operation"])) {
   else {
     // Try to find the account selected in the form
     $account = $accountModel->getAccountAmount($_POST["account_id"], $_SESSION["user"]);
-    // If an account has been found
     if($account) {
       $operation = new Operation($_POST);
       $account->updateAmount($operation);
-      // Register the operation in DB
       $operationModel = new OperationModel();
+      // Register the operation and update the account in DB
       $result = $operationModel->makeOperation($operation, $account);
-      // If the operation and the update has successfully been registered
       if($result) {
         $success = "Votre opération a bien été enregistrée";
       }
