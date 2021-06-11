@@ -54,6 +54,7 @@ CREATE TABLE Operation(
   account_id INT UNSIGNED,
   PRIMARY KEY (id),
   FOREIGN KEY (account_id) REFERENCES Account(id)
+  ON DELETE CASCADE
 )
 ENGINE=InnoDB;
 

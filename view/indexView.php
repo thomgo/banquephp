@@ -25,7 +25,7 @@ include "view/template/header.php";
             ?>
           </li>
         </ul>
-        <a href="#" class="btn btn-info">Côturer</a>
+        <a href="closeAccount.php?id=<?php echo $account->getId() ?>" class="btn btn-info">Côturer</a>
         <a href="operation.php" class="btn btn-info">Dépot/retrait</a>
         <a href="single.php?id=<?php echo $account->getId(); ?>" class="btn btn-info">Voir</a>
       </div>

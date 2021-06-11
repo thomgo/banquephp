@@ -114,4 +114,17 @@ class AccountModel extends Model {
       ]);
       return $result;
   }
+
+  public function deleteAccount(int $id, User $user) {
+    $query = $this->db->prepare(
+      "DELETE FROM account
+      WHERE id = :id
+      AND user_id= :userId"
+    );
+    $result = $query->execute([
+      "id" => $id,
+      "userId" => $user->getId()
+    ]);
+    return $result;
+  }
 }

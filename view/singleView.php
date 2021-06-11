@@ -20,7 +20,7 @@ if(!isset($error)):
               <li class="list-group-item">Solde : <?php echo $account->getAmount(); ?></li>
               <li class="list-group-item">Date d'ouverture : <?php echo $account->getOpening_date(); ?></li>
             </ul>
-            <a href="#" class="btn btn-info">Clôturer</a>
+            <a href="closeAccount.php?id=<?php echo $account->getId() ?>" class="btn btn-info">Clôturer</a>
             <a href="operation.php" class="btn btn-info">Dépot/retrait</a>
           </div>
         </article>
