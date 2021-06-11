@@ -4,7 +4,7 @@ require_once "model/entity/entity.php";
 
 class Operation extends Entity {
   protected string $operation_type;
-  protected int $operation_amount;
+  protected float $operation_amount;
   protected string $registered;
   protected ?string $label;
 
@@ -27,7 +27,7 @@ class Operation extends Entity {
       return $this;
   }
 
-  public function getOperation_amount(): int
+  public function getOperation_amount(): float
   {
       if($this->operation_type === "débit" && $this->operation_amount > 0) {
         return -$this->operation_amount;
@@ -36,7 +36,7 @@ class Operation extends Entity {
   }
 
 
-  public function setOperation_amount(int $operation_amount):Operation
+  public function setOperation_amount(float $operation_amount):Operation
   {
       $this->operation_amount = $operation_amount;
 

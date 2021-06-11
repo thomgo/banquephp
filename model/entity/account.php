@@ -10,7 +10,7 @@ class Account extends Entity {
       ]
     ];
 
-  protected int $amount;
+  protected float $amount;
   protected string $opening_date;
   protected string $account_type;
   protected ?Operation $last_operation = null;
@@ -23,21 +23,25 @@ class Account extends Entity {
     }
   }
 
-  public function getAmount():int
+  public function getAmount():float
   {
        return $this->amount;
   }
 
 
-  public function setAmount(int $amount):Account
+  public function setAmount(float $amount):Account
   {
     // If amount is not a valid integer throw an exception
-    if(filter_var($amount, FILTER_VALIDATE_INT, self::AMOUNT_OPTIONS)) {
+    if(filter_var($amount, FILTER_VALIDATE_FLOAT, self::AMOUNT_OPTIONS)) {
       $this->amount = $amount;
       return $this;
     }
     throw new Exception("<li>Montant minimum : 50 euros</li>");
+  }
 
+  public function updateAmount(Operation $operation) {
+    $newAmount = $this->getAmount() + $operation->getOperation_amount();
+    $this->setAmount($newAmount);
   }
 
   public function getOpening_date(): string

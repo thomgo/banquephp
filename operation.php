@@ -26,10 +26,7 @@ if(!empty($_POST) && isset($_POST["operation"])) {
     // If an account has been found
     if($account) {
       $operation = new Operation($_POST);
-      // Update the amount of the account according to the type of operation
-      $newAmount = floatval($account->getAmount()) + floatval($operation->getOperation_amount());
-      $account->setAmount($newAmount);
-
+      $account->updateAmount($operation);
       // Register the operation in DB
       $operationModel = new OperationModel();
       $result = $operationModel->makeOperation($operation, $account);
